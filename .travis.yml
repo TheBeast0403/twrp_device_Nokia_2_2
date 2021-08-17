@@ -1,16 +1,21 @@
 os: linux
-dist: bionic
+dist: focal
+group: edge
 language: generic
-sudo: required
 git:
   depth: 1
 addons:
   apt:
     update:
       - true
+    packages:
+      - aria2
+      - zstd
+      - xz-utils
 services:
   - docker
 before_install:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 2>/dev/null
   - docker pull fr3akyphantom/droid-builder:latest
 before_script:
   - cd $HOME && mkdir twrp
