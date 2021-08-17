@@ -3,7 +3,7 @@
 
 ifneq ($(filter WSP_sprout,$(TARGET_DEVICE)),)
 
-LOCAL_PATH := device/HMD Global/WSP_sprout
+LOCAL_PATH := device/Nokia/WSP_sprout
 
 include $(call all-makefiles-under,$(LOCAL_PATH))
 
