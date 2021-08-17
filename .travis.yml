@@ -1,26 +1,20 @@
 os: linux
-dist: focal
-group: edge
+dist: bionic
 language: generic
+sudo: required
 git:
   depth: 1
 addons:
   apt:
     update:
       - true
-    packages:
-      - aria2
-      - zstd
-      - xz-utils
 services:
   - docker
 before_install:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 2>/dev/null
   - docker pull fr3akyphantom/droid-builder:latest
 before_script:
   - cd $HOME && mkdir twrp
-  # Download the TWRP Compressed Source Files from PhantomZone54's Release
-  # > More on https://github.com/PhantomZone54/twrp_sources_norepo/releases/latest
+  # download the TWRP Compressed Source Files from PhantomZone54's Release
   # Uncomment & Use below line If Building for Lollipop-based Devices
   # - TWRP_SOURCE="https://github.com/PhantomZone54/twrp_sources_norepo/releases/download/v3.4.0-20201103/MinimalOmniRecovery-twrp-5.1-norepo-20201103.tzst"
   # Use below line If Building for Marshmallow-based Devices
