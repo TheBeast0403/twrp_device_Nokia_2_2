@@ -24,15 +24,16 @@ before_script:
   - repo sync -f --force-sync -c --no-clone-bundle --no-tags -j5
 script:
   # Replace your ${_USERNAME_}, ${_REPO_SLUG_}, ${_VENDORNAME_}, ${_CODENAME_}
-  - cd $HOME/twrp3/ && git clone https://github.com/TheBeast0403/twrp_device_Nokia_2_2.git device/Nokia/WSP_sprout
+  - cd $HOME/twrp3/ && git clone https://github.com/TheBeast0403/twrp_device_Nokia_2_2.git device/hmd/WSP_sprout
   - source build/envsetup.sh
   - lunch omni_WSP_sprout-eng
+  - echo making bootimage with $(nproc --all) threads
   - make -j$(nproc --all) bootimage
   - exit
   - EOF
 after_success:
   - export version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d '"' -f2)
-  - cp $HOME/twrp3/out/target/product/${_CODENAME_}/boot.img $HOME/twrp3/TWRP-$version-WSP_sprout-$(date +"%Y%m%d")-Unofficial.img
+  - cp $HOME/twrp3/out/target/product/WSP_sprout/boot.img $HOME/twrp3/TWRP-boot.img
   - cd $HOME/twrp3/
   # Optional: You might need to switch from https://transfer.sh to https://file.io
   # - curl -s --upload-file TWRP-$version-WSP_sprout-$(date +"%Y%m%d")-Unofficial.img https://transfer.sh/ && echo ""
@@ -42,7 +43,7 @@ deploy:
   token: $GitOAUTHToken
   cleanup: false
   file_glob: true
-  file: $HOME/twrp3/*.img
+  file: $HOME/twrp3/TWRP-boot.img
   on:
     tags: false # Set "true" to deploy only on successful tagged commit builds
     repo: TheBeast0403/twrp_device_Nokia_2_2 # Optional: If you want to deploy on different repository
