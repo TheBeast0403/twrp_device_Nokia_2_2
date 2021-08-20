@@ -4,14 +4,6 @@ group: edge
 language: generic
 git:
   depth: 1
-addons:
-  apt:
-    update:
-      - true
-    packages:
-      - aria2
-      - zstd
-      - xz-utils
 before_script:
   - cd $HOME && mkdir -p twrp3
   - mkdir -p ~/.bin
@@ -21,14 +13,14 @@ before_script:
   - git config --global user.email "test@gmail.com"
   - git config --global user.name "twrp test"
   - repo init --depth=1 -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-11
-  - repo sync -f --force-sync -c --no-clone-bundle --no-tags -j5
+  - travis_wait 30 repo sync -f --force-sync -c --no-clone-bundle --no-tags -j5
 script:
   # Replace your ${_USERNAME_}, ${_REPO_SLUG_}, ${_VENDORNAME_}, ${_CODENAME_}
   - cd $HOME/twrp3/ && git clone https://github.com/TheBeast0403/twrp_device_Nokia_2_2.git device/hmd/WSP_sprout
   - source build/envsetup.sh
-  - lunch omni_WSP_sprout-eng
+  - travis_wait 20 lunch omni_WSP_sprout-eng
   - echo making bootimage with $(nproc --all) threads
-  - make -j$(nproc --all) bootimage
+  - travis_wait 30 make -j$(nproc --all) bootimage
   - exit
   - EOF
 after_success:
