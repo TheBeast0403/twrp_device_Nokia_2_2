@@ -21,7 +21,7 @@ before_script:
   - git config --global user.email "test@mail.com"
   - git config --global user.name "test"
   - repo init --depth=1 -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-11
-  - repo sync
+  - repo sync -f --force-sync -c --no-clone-bundle --no-tags -j5
 script:
   # Replace your ${_USERNAME_}, ${_REPO_SLUG_}, ${_VENDORNAME_}, ${_CODENAME_}
   - cd $HOME/twrp3/ && git clone https://github.com/TheBeast0403/twrp_device_Nokia_2_2.git device/Nokia/WSP_sprout
