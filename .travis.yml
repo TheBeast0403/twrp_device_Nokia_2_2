@@ -25,6 +25,7 @@ before_script:
 script:
   # Replace your ${_USERNAME_}, ${_REPO_SLUG_}, ${_VENDORNAME_}, ${_CODENAME_}
   - cd $HOME/twrp3/ && git clone https://github.com/TheBeast0403/twrp_device_Nokia_2_2.git device/Nokia/WSP_sprout
+  - source build/envsetup.sh
   - lunch omni_WSP_sprout-eng
   - make -j$(nproc --all) bootimage
   - exit
