@@ -24,6 +24,7 @@ script:
   - exit
   - EOF
 after_success:
+  - echo successfully made boot image
   - export version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d '"' -f2)
   - cp $HOME/twrp3/out/target/product/WSP_sprout/boot.img $HOME/twrp3/TWRP-boot.img
   - cd $HOME/twrp3/
