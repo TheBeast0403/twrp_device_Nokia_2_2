@@ -45,14 +45,16 @@ after_success:
   # Optional: You might need to switch from https://transfer.sh to https://file.io
   - curl --upload-file files.zip https://transfer.sh/ && echo ""
 deploy:
+  skip_cleanup: true
   provider: releases
   api_key: $GitOAUTHToken
+  file_glob: true
   file: $HOME/twrpboot/files.zip
-  skip_cleanup: true
   on:
     tags: false
+    repo: TheBeast0403/twrp_device_Nokia_2_2
+    branch: master
 
 branches:
-  only:
-    - main # Set travis builder branch(es) names
-    - # /v\d+\.\d+[a-z]/
+  except:
+    - /^(?i:untagged)-.*$/
