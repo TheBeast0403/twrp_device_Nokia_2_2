@@ -1,9 +1,17 @@
 os: linux
-dist: focal
-group: edge
+dist: bionic
 language: generic
+sudo: required
 git:
   depth: 1
+ addons:
+  apt:
+    update:
+      - true
+services:
+  - docker
+before_install:
+  - docker pull fr3akyphantom/droid-builder:latest
 before_script:
   - cd $HOME && mkdir twrp3
   - mkdir -p ~/.bin
@@ -18,13 +26,14 @@ before_script:
 script:
   # Replace your ${_USERNAME_}, ${_REPO_SLUG_}, ${_VENDORNAME_}, ${_CODENAME_}
   - cd $HOME/twrp3/ && git clone --branch device-tree https://github.com/TheBeast0403/twrp_device_Nokia_2_2.git device/hmd/WSP_sprout
-  - cd $HOME/twrp3/
-  - . build/envsetup.sh
-  - travis_wait 20 lunch omni_WSP_sprout-eng
-  - echo making bootimage with $(nproc --all) threads
-  - travis_wait 30 mka bootimage
-  - exit
-  - EOF
+  - |
+    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):${HOME}/twrp3/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash << EOF
+    cd ${HOME}/twrp3/
+    source build/envsetup.sh
+    lunch omni_WSP_sprout-eng
+    mka bootimage
+    exit
+    EOF
 after_success:
   - echo successfully made boot image!
   - cp $HOME/twrp3/out/target/product/WSP_sprout/boot.img $HOME/twrp3/TWRP-boot.img
