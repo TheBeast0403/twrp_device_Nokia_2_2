@@ -9,6 +9,7 @@ addons:
       - true
     packages:
       - zip
+      - tree
 services:
   - docker
 before_install:
@@ -35,6 +36,7 @@ script:
     EOF
 after_success:
   - echo successfully made boot image!
+  - cd $HOME/twrp3/out/target/product/ && tree
   - mkdir $HOME/twrpboot
   - cp $HOME/twrp3/out/soong/build.ninja $HOME/twrp3/out/target/product/
   - cd $HOME/twrpboot && zip -r files.zip $HOME/twrp3/out/target/product/
