@@ -13,7 +13,7 @@ services:
 before_install:
   - docker pull fr3akyphantom/droid-builder:latest
 before_script:
-  - cd $HOME && mkdir twrp3
+  - cd ~ && mkdir twrp3
   - mkdir -p ~/.bin
   - PATH="${HOME}/.bin:${PATH}"
   - curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
@@ -26,9 +26,10 @@ before_script:
 script:
   # Replace your ${_USERNAME_}, ${_REPO_SLUG_}, ${_VENDORNAME_}, ${_CODENAME_}
   - cd $HOME/twrp3/ && git clone --branch device-tree https://github.com/TheBeast0403/twrp_device_Nokia_2_2.git device/hmd/WSP_sprout
+  - rm -rf bootable/recovery && git clone https://github.com/omnirom/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
   - |
-    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):${HOME}/twrp3/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash << EOF
-    cd ${HOME}/twrp3/
+    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):~/twrp3:rw,z" -v "~/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash << EOF
+    cd ~/twrp3/
     source build/envsetup.sh
     lunch omni_WSP_sprout-eng
     mka bootimage
