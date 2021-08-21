@@ -47,11 +47,9 @@ deploy:
   file: $HOME/twrpboot/files.zip
   skip_cleanup: true
   on:
-    tags: true
+    tags: false
 
 branches:
   only:
     - main # Set travis builder branch(es) names
-  except:
-    - /^(?i:untagged)-.*$/
-    - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+    - # /v\d+\.\d+[a-z]/
