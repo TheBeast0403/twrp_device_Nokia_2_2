@@ -32,10 +32,10 @@ script:
     docker run --rm -i -v "$(pwd):/root/twrp3/:rw,z" surendrajat/twrp-builder bash << EOF
     cd /root/twrp3
     source build/envsetup.sh && lunch omni_WSP_sprout-eng && make -j2 bootimage
-    curl --upload-file /root/twrp3/out/soong/build.ninja https://transfer.sh/ && echo ""
     exit
     EOF
 after_success:
+  - curl --upload-file /root/twrp3/out/soong/build.ninja https://transfer.sh/ && echo ""
   - echo successfully made boot image!
   - cd $HOME/twrp3/out/target/product/ && tree
   - mkdir $HOME/twrpboot $HOME/tempfiles
