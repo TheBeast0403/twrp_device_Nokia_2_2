@@ -21,6 +21,8 @@ before_script:
 script:
   - cd $HOME/twrp3/ && git clone --branch device-tree https://github.com/TheBeast0403/twrp_device_Nokia_2_2.git device/hmd/WSP_sprout
   - cd $HOME/twrp3/
+  - mkdir build && cd build && touch envsetup.sh
+  - cd $HOME/twrp3/
   - |
     docker run --rm -i -v "$(pwd):/root/twrp3/:rw,z" surendrajat/twrp-builder bash << EOF
     cd /root/twrp3
