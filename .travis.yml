@@ -5,7 +5,7 @@ language: generic
 git:
   depth: 1
 before_script:
-  - cd $HOME && mkdir -p twrp3
+  - cd $HOME && mkdir twrp3
   - mkdir -p ~/.bin
   - PATH="${HOME}/.bin:${PATH}"
   - curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
@@ -13,11 +13,12 @@ before_script:
   - git config --global user.email "test@gmail.com"
   - git config --global user.name "twrp test"
   - repo init --depth=1 -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-11
-  - travis_wait 30 repo sync -f --force-sync -c --no-clone-bundle --no-tags -j5
+  - travis_wait 30 repo sync -f --force-sync -c --no-clone-bundle --no-tags -j2
 script:
   # Replace your ${_USERNAME_}, ${_REPO_SLUG_}, ${_VENDORNAME_}, ${_CODENAME_}
-  - cd $HOME/twrp3/ && git clone https://github.com/TheBeast0403/twrp_device_Nokia_2_2.git device/hmd/WSP_sprout
-  - source build/envsetup.sh
+  - cd $HOME/twrp3/ && git clone --branch device-tree https://github.com/TheBeast0403/twrp_device_Nokia_2_2.git device/hmd/WSP_sprout
+  - cd $HOME/twrp3/
+  - . build/envsetup.sh
   - travis_wait 20 lunch omni_WSP_sprout-eng
   - echo making bootimage with $(nproc --all) threads
   - travis_wait 30 make -j$(nproc --all) bootimage
@@ -40,7 +41,7 @@ deploy:
   on:
     tags: false # Set "true" to deploy only on successful tagged commit builds
     repo: TheBeast0403/twrp_device_Nokia_2_2 # Optional: If you want to deploy on different repository
-    branch: master # Optional: Needs to be exact as the config branch
+    branch: main # Optional: Needs to be exact as the config branch
 branches:
   only:
     - main # Set travis builder branch(es) names
