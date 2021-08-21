@@ -19,10 +19,9 @@ script:
   # Replace your ${_USERNAME_}, ${_REPO_SLUG_}, ${_VENDORNAME_}, ${_CODENAME_}
   - cd $HOME/twrp3/ && git clone --branch device-tree https://github.com/TheBeast0403/twrp_device_Nokia_2_2.git device/hmd/WSP_sprout
   - cd $HOME/twrp3/
-  - . build/envsetup.sh
-  - travis_wait 20 lunch omni_WSP_sprout-eng
-  - echo making bootimage with $(nproc --all) threads
-  - travis_wait 30 mka bootimage
+  - cd build
+  - chmod a+rx ./envsetup.sh
+  - ./envsetup.sh; m -j2 bootimage
   - exit
   - EOF
 after_success:
