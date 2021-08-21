@@ -26,7 +26,7 @@ script:
   - |
     docker run --rm -i -v "$(pwd):/root/twrp3/:rw,z" surendrajat/twrp-builder bash << EOF
     cd /root/twrp3
-    source build/envsetup.sh && lunch omni_WSP_sprout-eng && make -j$(nproc --all) bootimage
+    source build/envsetup.sh && echo lunch omni_WSP_sprout-eng && make -j$(nproc --all) bootimage
     exit
     EOF
 after_success:
