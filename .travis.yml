@@ -22,7 +22,7 @@ script:
   - . build/envsetup.sh
   - travis_wait 20 lunch omni_WSP_sprout-eng
   - echo making bootimage with $(nproc --all) threads
-  - travis_wait 30 make -j$(nproc --all) bootimage
+  - travis_wait 30 mka bootimage
   - exit
   - EOF
 after_success:
