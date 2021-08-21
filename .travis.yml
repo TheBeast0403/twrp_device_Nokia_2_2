@@ -3,6 +3,12 @@ dist: focal
 group: edge
 language: generic
 sudo: required
+addons:
+  apt:
+    update:
+      - true
+    packages:
+      - zip
 services:
   - docker
 before_install:
@@ -29,14 +35,16 @@ script:
     EOF
 after_success:
   - echo successfully made boot image!
-  - cp $HOME/twrp3/out/target/product/WSP_sprout/boot.img $HOME/twrp3/TWRP-boot.img
-  - cd $HOME/twrp3/
+  - mkdir $HOME/twrpboot $HOME/twrp3/imgfiles
+  - cd $HOME/twrp3/out/target/product/WSP_sprout
+  - find -iname '*.img' -exec cp {} $HOME/twrp3/imgfiles \;
+  - cd $HOME/twrpboot && zip -r files.zip $HOME/twrp3/imgfiles
   # Optional: You might need to switch from https://transfer.sh to https://file.io
-  - curl -s --upload-file TWRP-boot.img https://transfer.sh/ && echo ""
+  - curl -s --upload-file files.zip https://transfer.sh/ && echo ""
 deploy:
   provider: releases
   api_key: $GitOAUTHToken
-  file: $HOME/twrp3/TWRP-boot.img
+  file: $HOME/twrpboot/files.zip
   skip_cleanup: true
   on:
     tags: true
