@@ -17,16 +17,14 @@ before_script:
   - git config --global user.email "test@gmail.com"
   - git config --global user.name "twrp test"
   - repo init --depth=1 -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-11
-  - #travis_wait 30 repo sync -f --force-sync -c --no-clone-bundle --no-tags -j2
+  - travis_wait 30 repo sync -f --force-sync -c --no-clone-bundle --no-tags -j2
 script:
   - cd $HOME/twrp3/ && git clone --branch device-tree https://github.com/TheBeast0403/twrp_device_Nokia_2_2.git device/hmd/WSP_sprout
-  - cd $HOME/twrp3/
-  - mkdir build && cd build && touch envsetup.sh
   - cd $HOME/twrp3/
   - |
     docker run --rm -i -v "$(pwd):/root/twrp3/:rw,z" surendrajat/twrp-builder bash << EOF
     cd /root/twrp3
-    source build/envsetup.sh && echo lunch omni_WSP_sprout-eng && make -j$(nproc --all) bootimage
+    source build/envsetup.sh && lunch omni_WSP_sprout-eng && make -j2 bootimage
     exit
     EOF
 after_success:
