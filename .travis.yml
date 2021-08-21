@@ -32,18 +32,15 @@ after_success:
   - cp $HOME/twrp3/out/target/product/WSP_sprout/boot.img $HOME/twrp3/TWRP-boot.img
   - cd $HOME/twrp3/
   # Optional: You might need to switch from https://transfer.sh to https://file.io
-  # - curl -s --upload-file TWRP-$version-WSP_sprout-$(date +"%Y%m%d")-Unofficial.img https://transfer.sh/ && echo ""
+  - curl -s --upload-file TWRP-boot.img https://transfer.sh/ && echo ""
 deploy:
   provider: releases
-  # The secret api_key will be loaded from the environment variables
-  token: $GitOAUTHToken
-  cleanup: false
-  file_glob: true
+  api_key: $GitOAUTHToken
   file: $HOME/twrp3/TWRP-boot.img
+  skip_cleanup: true
   on:
-    tags: false # Set "true" to deploy only on successful tagged commit builds
-    repo: TheBeast0403/twrp_device_Nokia_2_2 # Optional: If you want to deploy on different repository
-    branch: main # Optional: Needs to be exact as the config branch
+    tags: true
+
 branches:
   only:
     - main # Set travis builder branch(es) names
