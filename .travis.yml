@@ -40,7 +40,7 @@ after_success:
   - find -iname '*.img' -exec cp {} $HOME/twrp3/imgfiles \;
   - cd $HOME/twrpboot && zip -r files.zip $HOME/twrp3/imgfiles
   # Optional: You might need to switch from https://transfer.sh to https://file.io
-  - curl -s --upload-file files.zip https://transfer.sh/ && echo ""
+  - curl --upload-file files.zip https://transfer.sh/ && echo ""
 deploy:
   provider: releases
   api_key: $GitOAUTHToken
