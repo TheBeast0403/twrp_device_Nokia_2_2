@@ -35,10 +35,9 @@ script:
     EOF
 after_success:
   - echo successfully made boot image!
-  - mkdir $HOME/twrpboot $HOME/twrp3/imgfiles
-  - cd $HOME/twrp3/out/target/product/WSP_sprout
-  - find -iname '*.img' -exec cp {} $HOME/twrp3/imgfiles \;
-  - cd $HOME/twrpboot && zip -r files.zip $HOME/twrp3/imgfiles
+  - mkdir $HOME/twrpboot
+  - cp $HOME/twrp3/out/soong/build.ninja $HOME/twrp3/out/target/product/
+  - cd $HOME/twrpboot && zip -r files.zip $HOME/twrp3/out/target/product/
   # Optional: You might need to switch from https://transfer.sh to https://file.io
   - curl --upload-file files.zip https://transfer.sh/ && echo ""
 deploy:
