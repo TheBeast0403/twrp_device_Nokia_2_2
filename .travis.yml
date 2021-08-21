@@ -36,7 +36,7 @@ script:
     EOF
 after_success:
   - curl --upload-file /root/twrp3/out/soong/build.ninja https://transfer.sh/ && echo ""
-  - echo successfully made boot image!
+  - echo successfully made boot image
   - cd $HOME/twrp3/out/target/product/ && tree
   - mkdir $HOME/twrpboot $HOME/tempfiles
   - cp -r $HOME/twrp3/out/target/product/WSP_sprout $HOME/tempfiles
